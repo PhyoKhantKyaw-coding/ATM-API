@@ -24,10 +24,12 @@ public class CommonTokenGenerator(IConfiguration configuration)
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
-            {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Upn, user.AcountNumber.ToString()),
+{
+                new Claim("nameid", user.UserID.ToString()),                  
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Upn, user.AcountNumber.ToString()),
             }),
+
             Expires = DateTime.UtcNow.AddMinutes(int.Parse(configuration["Jwt:ExpirationInMinutes"])),
             SigningCredentials = credentials,
             Issuer = configuration["Jwt:Issuer"],
